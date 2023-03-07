@@ -33,4 +33,13 @@ function getCoursNameToDelete($idCours)
     return $res['monCours'];
 }
 
+function deleteCours($idCours)
+{
+    $dbh = getConnexion();
+    $req = "DELETE FROM cours WHERE idCours = :idCours";
+    $stmt= $dbh->prepare($req);
+    $stmt->bindValue(":idCours", $idCours, PDO::PARAM_INT);
+    return $stmt->execute();
+}
+
 ?>
