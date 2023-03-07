@@ -6,6 +6,7 @@ include'partiales/header.php';
 require'request/catalogue.dao.php';
 
 $cours = getCours();
+$type = getTypes();
 // Fonction permettant de tronquer le texte
 function truncate($text, $ending = '...') {
     if (strlen($text) > 50) {
@@ -21,6 +22,7 @@ function truncate($text, $ending = '...') {
         <a class="btn btn-outline-light btn-lg" href="ajout-cours.php">Ajouter un cours</a>
     </div>
     <?php
+    // SUPPRESSION
         if(isset($_GET['type']) && $_GET['type'] === 'suppression')
         {
             $coursNameToDelete = getCoursNameToDelete($_GET['idCours']);
@@ -47,6 +49,26 @@ function truncate($text, $ending = '...') {
                 <div class="container-md">
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         <p>La suppression ne s'est pas bien déroulée</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            <?php }
+        }
+        // MODIFICATION
+        if(isset($_POST['type']) && $_POST['type'] === 'modificationEtape2')
+        {
+            $success = updateCours($_POST['idCours'], $_POST['nomCours'], $_POST['descCours'], $_POST['idType']);
+            if($success){ ?>
+                <div class="container-md">
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <p>La modification s'est bien déroulée</p>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            <?php }else { ?>
+                <div class="container-md">
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <p>La modification ne s'est pas bien déroulée</p>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </div>
@@ -89,10 +111,6 @@ function truncate($text, $ending = '...') {
                         <input type="hidden" name="idCours" value="<?= $cour['idCours'] ?>" />
                         <img src="assets/img/<?= $cour['image'] ?>" class="card-img-top img-fluid" alt="<?= $cour['libelle'] ?>">
                         <div class="card-body">
-                            <div class="form-group mt-3">
-                                <label for="imageCours">Image du cours :</label>
-                                <input type="file" name="imageCours" id="imageCours" class="form-control-file mt-3" />
-                            </div>
                             <div class="form-group">
                                 <label for="nomCours">Nom du cours :</label>
                                 <input type="text" name="nomCours" value="<?= $cour['libelle'] ?>" id="nomCours" class="form-control">
@@ -104,13 +122,17 @@ function truncate($text, $ending = '...') {
                             <div class="form-group">
                                 <label for="idType">Type du cours :</label>
                                 <select id="idType" name="idType" class="form-control">
-                                    <?php foreach($type as $type) :?>
-                                        <option value="<?= $type['idType'] ?>" <?= ($type['idType'] === $cour['idType']) ? "selected" : "" ?> >
-                                            <?= $type['libelle'] ?>
-                                        </option>
-                                    <?php endforeach;?>
+                                    <?php foreach($type as $type): ?>
+                                    <option value="<?= $type['idType'] ?>" <?= ($type['idType'] === $cour['idType']) ? "selected" : "" ?>>
+                                        <?= $type['libelle'] ?>
+                                    </option>
+                                    <?php endforeach ?>
                                 </select>
                             </div>
+                            <?php
+                            $type = getCoursType($cour['idType']);
+                            ?>
+                            <span class="badge bg-primary"><?= $type['libelle'] ?></span>
                         </div>
                         <div class="card-footer d-flex justify-content-around">
                             <input type="submit" value="Valider" class="btn btn-primary" />
@@ -124,4 +146,4 @@ function truncate($text, $ending = '...') {
         <?php endforeach; ?>
 </div>
 
-<?php include 'partiales/footer.php';?>
+<?php include 'partiales/footer.php'; ?>
