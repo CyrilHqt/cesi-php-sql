@@ -4,6 +4,7 @@ $title = "Catalogue de cours";
 
 include'partiales/header.php';
 require'request/catalogue.dao.php';
+require'services/imageService.php';
 
 $cours = getCours();
 $type = getTypes();
@@ -30,13 +31,15 @@ function truncate($text, $ending = '...') {
             <div class="container-md">
                 <div class="alert alert-warning alert-dismissible fade show" role="alert">
                     <p>Voulez vous vraiment supprimer <strong><?= $coursNameToDelete ?></strong> ?</p>
-                    <a href="?delete<?= $_GET['idCours'] ?>" class="btn btn-outline-danger">Confirmer</a>
+                    <a href="?delete=<?= $_GET['idCours'] ?>" class="btn btn-outline-danger">Confirmer</a>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </div>
         <?php }
         if(isset($_GET['delete']))
         {
+            $imageToDelete = getImageToDelete($_GET['delete']);
+            deleteImage("assets/img/", $imageToDelete);
             $success = deleteCours($_GET['delete']);
             if($success){ ?>
                 <div class="container-md">
@@ -57,7 +60,19 @@ function truncate($text, $ending = '...') {
         // MODIFICATION
         if(isset($_POST['type']) && $_POST['type'] === 'modificationEtape2')
         {
-            $success = updateCours($_POST['idCours'], $_POST['nomCours'], $_POST['descCours'], $_POST['idType']);
+            $newImageName = "";
+            if($_FILES['imageCours']['name'] !== ""){
+                $imageToDelete = getImageToDelete($_POST['idCours']);
+                deleteImage("assets/img/", $imageToDelete);
+                $fileImage = $_FILES['imageCours'];
+                $directory = __DIR__."/assets/img/";
+                try{
+                    $newImageName = ajoutImage($fileImage, $directory, str_replace(' ', '-', strtolower($_POST['libelle'])));
+                }catch (Exception $e){
+                    echo $e->getMessage();
+                }
+            }
+            $success = updateCours($_POST['idCours'], $_POST['nomCours'], $_POST['descCours'], $_POST['idType'], $newImageName);
             if($success){ ?>
                 <div class="container-md">
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -112,6 +127,10 @@ function truncate($text, $ending = '...') {
                         <img src="assets/img/<?= $cour['image'] ?>" class="card-img-top img-fluid" alt="<?= $cour['libelle'] ?>">
                         <div class="card-body">
                             <div class="form-group">
+                                <label for="imageCours">Image du cours :</label>
+                                <input type="file" name="imageCours" id="imageCours" class="form-control-file mt-3" />
+                            </div>
+                            <div class="form-group">
                                 <label for="nomCours">Nom du cours :</label>
                                 <input type="text" name="nomCours" value="<?= $cour['libelle'] ?>" id="nomCours" class="form-control">
                             </div>
@@ -129,10 +148,6 @@ function truncate($text, $ending = '...') {
                                     <?php endforeach ?>
                                 </select>
                             </div>
-                            <?php
-                            $type = getCoursType($cour['idType']);
-                            ?>
-                            <span class="badge bg-primary"><?= $type['libelle'] ?></span>
                         </div>
                         <div class="card-footer d-flex justify-content-around">
                             <input type="submit" value="Valider" class="btn btn-primary" />
