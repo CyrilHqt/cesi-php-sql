@@ -2,9 +2,9 @@
 
 $title = "Catalogue de cours";
 
-include'partiales/header.php';
-require'request/catalogue.dao.php';
-require'services/imageService.php';
+include 'partiales/header.php';
+require 'request/catalogue.dao.php';
+require 'services/imageService.php';
 
 $cours = getCours();
 $type = getTypes();
@@ -16,12 +16,17 @@ function truncate($text, $ending = '...') {
     return $text;
 }
 ?>
+
 <div class="container-md mt-5">
     <div class="h-100 p-5 text-bg-info text-white rounded-3">
         <h1>Catalogue des cours</h1>
         <p class="h3">Bienvenue sur le site de cours en ligne</p>
-        <a class="btn btn-outline-light btn-lg" href="ajout-cours.php">Ajouter un cours</a>
+        <form>
+            <a class="btn btn-outline-light btn-lg" href="ajout-cours.php">Ajouter un cours</a>
+            <a class="btn btn-outline-light btn-lg" href="ajout-type-cours.php">Ajouter un type de cours</a>
+        </form>
     </div>
+
     <?php
     // SUPPRESSION
         if(isset($_GET['type']) && $_GET['type'] === 'suppression')
