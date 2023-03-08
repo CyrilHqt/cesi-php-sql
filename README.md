@@ -47,7 +47,7 @@ Importer le fichier sql dans votre gestionnaire de bdd
 ```
 Vérifié la configuration de la bdd ainsi que la connexion dans le fichier "config/db.php"
 ```
-<h2> Remarque</h2>
+<h2>❗ Remarque</h2>
 
 <p>ATTENTION : La fonctionnalité "Supprimer un type de cours" ne fonctionne pas !</p>
 <p>Le dossier "partiales" s'écrit avec un "e" non pas "partials" !</p>
