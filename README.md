@@ -4,4 +4,4 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://drive.google.com/file/d/1QNAlwzElThBCm1p3icucEKn4LXwyygCu/view?usp=share_link" alt="project-screenshot" width="200" height="200/">
+<img src="assets/img/concepteur" alt="project-screenshot" width="200" height="200/">
