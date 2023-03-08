@@ -26,7 +26,7 @@ $title = isset($title) ? $title : "Catalogue de cours";
                             <a class="nav-link" aria-current="page" href="index.php">Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Catalogue</a>
+                            <a class="nav-link" aria-current="page" href="ressources.php">Catalogue</a>
                         </li>
                     </ul>
                 </div>

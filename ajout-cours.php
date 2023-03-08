@@ -2,7 +2,7 @@
 
 $title="Ajout d'un cours";
 
-include 'partials/header.php';
+include 'partiales/header.php';
 
 require 'request/catalogue.dao.php';
 
@@ -75,4 +75,4 @@ $type = getTypes();
     </div>
 </div>
 <?php
-include 'partials/footer.php'; ?>
+include 'partiales/footer.php'; ?>
