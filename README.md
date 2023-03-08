@@ -21,7 +21,6 @@ Voici quelques-unes des meilleures fonctionnalités du projet :
 * Supprimer une carte grâce au bouton "Supprimer"
 * Ajouter un typez de cours sur la page "Ajouter un type de cours"
 * Supprimer un type de cours
-* ATTENTION : La fonctionnalité "Supprimer un type de cours" ne fonctionne pas !
 
 <h2>🛠️ Étapes d'installation :</h2>
 
@@ -48,3 +47,8 @@ Importer le fichier sql dans votre gestionnaire de bdd
 ```
 Vérifié la configuration de la bdd ainsi que la connexion dans le fichier "config/db.php"
 ```
+<h2> Remarque</h2>
+
+<p>ATTENTION : La fonctionnalité "Supprimer un type de cours" ne fonctionne pas !</p>
+<p>Le dossier "partiales" s'écrit avec un "e" non pas "partials" !</p>
+<p>La table "type" est sans "s" donc pas "types" !</p>
